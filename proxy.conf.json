@@ -1,0 +1,11 @@
+{
+    "/api/*": {
+        "target": "https://lofty-test.herokuapp.com",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "headers": {
+            "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX1VTRVIiLCJuYW1lIjoiYWRtaW4iLCJleHAiOjE2NTgxNDU5ODR9.9MP_Nlwean4PZv3kRAXKXD9MVTTaWlChbIcwY16mYxprPfn450fzGtKlgAJCbUN72PxZDtDrGQeYEmrZkvkg9g"
+        }
+    }
+}

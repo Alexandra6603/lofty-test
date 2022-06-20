@@ -1,0 +1,35 @@
+<div>
+    <form [formGroup]="autorizationForm">
+
+        <span class="p-float-label">
+            <input
+                pInputText
+                type="text"
+                formControlName="login"/>
+            <label for="inputText">
+                <span>Логин</span>
+            </label>
+        </span>
+
+        <span class="p-float-label" style="margin-top: 10px">
+            <input
+                pInputText
+                type="text"
+                formControlName="password"
+                />
+            <label for="inputText">
+                <span>Пароль</span>
+            </label>
+        </span>
+    </form>
+
+    <button
+        pButton
+        class="p-button-help"
+        label="Войти"
+        (click)="onSubmit()"
+        style="margin-top: 10px"
+        >
+    </button>
+</div>
+

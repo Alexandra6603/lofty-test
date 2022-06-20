@@ -1,0 +1,184 @@
+<div style="display: flex; justify-content: start; margin-bottom: 15px; gap: 15px;">
+    <p-menu appendTo="body" #menu [popup]="true" [model]="postsMenu"></p-menu>
+    <button
+        pButton
+        label="Посты"
+        (click)="menuToggle($event, menu)">
+    </button>
+
+    <button 
+        pButton 
+        (click)="openEditForm({state: SidebarState.add, visible: true})" 
+        label="Добавить пост"
+        >
+    </button>
+</div>
+
+
+<p-table 
+    [rows]="size"
+    [loading]="loading"
+    [value]="data"
+    [paginator]="true"
+    >
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 50%" pSortableColumn="title">
+               Пост
+               <p-sortIcon field="title"></p-sortIcon>
+            </th>
+
+            <th style="width: 20%" pSortableColumn="createDate">
+                Дата создания
+                <p-sortIcon field="createDate"></p-sortIcon>
+            </th>
+
+            <th style="width: 20%" pSortableColumn="updateDate">
+                Дата обновления
+                <p-sortIcon field="updateDate"></p-sortIcon>
+            </th>
+
+            <th style="width: 10%"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+        <tr>
+            <td style="width: 50%">
+                {{item.title}}
+            </td>
+
+            <td style="width: 20%">
+                {{item.createDate | date: 'dd.MM.yyyy hh.mm'}}
+            </td>
+
+            <td style="width: 20%">
+                {{item.updateDate | date: 'dd.MM.yyyy hh.mm'}}
+            </td>
+
+            <td style="width: 10%">
+                <button style="margin-right: 5px;" pButton icon="pi pi-pencil" (click)="openEditForm({state: SidebarState.edit, visible: true, item: item})"></button>
+                <button pButton icon="pi pi-trash" (click)="deletePost(item)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+        Всего {{totalElements}} постов
+    </ng-template>
+</p-table>
+
+<p-sidebar
+    [visible]="sidebarVisible"
+    [fullScreen]="true"
+    (onHide)="openEditForm({visible: false})">
+
+    <ng-container *ngIf="!edit && state === SidebarState.edit">
+        <h2 style="width: 75%; margin: auto; margin-bottom: 15px;">{{title}}</h2>
+        <p style="width: 75%; margin: auto; margin-bottom: 15px;">{{body}}</p>
+
+        <div style="display: flex; justify-content: end; gap: 15px; width: 75%; margin: auto;">
+            <button
+                pButton
+                label="Назад"
+                (click)="openEditForm({visible: false})"
+            ></button>
+
+            <button
+                pButton
+                label="Редактировать"
+                (click)="editPost()"
+            ></button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="edit && state === SidebarState.edit">
+        <h2 style="width: 75%; margin: auto; margin-bottom: 15px;">{{title}}</h2>
+        <form [formGroup]="editForm" *ngIf="editForm" style="width: 75%; margin: auto;">
+            <div class="p-grid p-fluid p-flued-fields">
+                <div>
+                    <span class="p-float-label">
+                        <input 
+                            type="text"
+                            pInputText
+                            formControlName="title"/>
+                            <label>
+                                <span>Название</span>
+                                <span class="required">*</span>
+                            </label>
+                    </span>
+                </div>
+
+                <div class="p-col-12" style="margin-top: 15px;">
+                    <span class="p-float-label">
+                        <textarea 
+                            pInputTextarea
+                            formControlName="post"
+                        >
+                        </textarea>
+                        <label>
+                            <span>Пост</span>
+                            <span class="required">*</span>
+                        </label>
+                    </span>
+                </div>
+            </div>
+        </form>
+        <div style="display: flex; justify-content: end; gap: 15px; width: 75%; margin: auto; margin-top: 15px;">
+            <button
+                pButton
+                label="Назад"
+                (click)="openEditForm({visible: false})"
+            ></button>
+
+            <button
+                pButton
+                label="Сохранить"
+                (click)="onSubmit()"
+            ></button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="state === SidebarState.add">
+        <h2 style="width: 75%; margin: auto; margin-bottom: 15px;">Добавить пост</h2>
+        <form [formGroup]="editForm" style="width: 75%; margin: auto;">
+            <div class="p-grid p-fluid p-flued-fields">
+                <div>
+                    <span class="p-float-label">
+                        <input 
+                            type="text"
+                            pInputText
+                            formControlName="title"/>
+                            <label>
+                                <span>Название</span>
+                            </label>
+                    </span>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <span class="p-float-label">
+                        <textarea 
+                            pInputTextarea
+                            formControlName="post"
+                        >
+                        </textarea>
+                        <label>
+                            <span>Пост</span>
+                        </label>
+                    </span>
+                </div>
+            </div>
+        </form>
+        <div style="display: flex; justify-content: end; gap: 15px; width: 75%; margin: auto; margin-top: 15px;">
+            <button
+                pButton
+                label="Назад"
+                (click)="openEditForm({visible: false})"
+            ></button>
+
+            <button
+                pButton
+                label="Добавить"
+                (click)="onSubmit()"
+            ></button>
+        </div>
+    </ng-container>
+</p-sidebar>
